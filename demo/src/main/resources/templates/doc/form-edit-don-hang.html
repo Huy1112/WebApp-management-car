@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>Danh sách đơn hàng | Quản trị Admin</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="/css/mainDoc.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <!-- or -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+<!-- Navbar-->
+<header class="app-header">
+    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
+                                    aria-label="Hide Sidebar"></a>
+    <!-- Navbar Right Menu-->
+    <ul class="app-nav">
+
+
+        <!-- User Menu-->
+        <li><a class="app-nav__item" th:href="@{/logout}"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+
+        </li>
+    </ul>
+</header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
+                                        alt="User Image">
+        <div>
+            <p class="app-sidebar__user-name"><b th:text="${user.name}"></b></p>
+            <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+        </div>
+    </div>
+    <hr>
+    <ul class="app-menu">
+
+        <li><a class="app-menu__item " th:href="@{/doc/index}"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item " th:href="@{/doc/table-data-table}"><i class='app-menu__icon bx bx-id-card'></i>
+            <span class="app-menu__label">Quản lý nhân viên</span></a></li>
+        <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/doc/table-data-product}"><i
+                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
+        </li>
+        <li><a class="app-menu__item active" th:href="@{/doc/table-data-oder}"><i class='app-menu__icon bx bx-task'></i><span
+                class="app-menu__label">Quản lý đơn hàng</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/doc/table-data-comment}"><i class='app-menu__icon bx bx-run'></i><span
+                class="app-menu__label">Quản lý bình luận
+          </span></a></li>
+        <li><a class="app-menu__item" th:href="@{/doc/table-data-hoa-don}"><i class='app-menu__icon bx bx-dollar'></i><span
+                class="app-menu__label">Quản lý hoá đơn</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/doc/quan-ly-bao-cao}"><i
+                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
+        </li>
+        <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-cog'></i><span class="app-menu__label">Cài
+            đặt hệ thống</span></a></li>
+    </ul>
+</aside>
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách đơn hàng</li>
+            <li class="breadcrumb-item"><a href="#">Chỉnh sửa tin</a></li>
+        </ul>
+    </div>
+    <form class="row" th:action="@{/doc/form-edit-don-hang}" th:object="${oderEdited}" method="post" enctype="multipart/form-data">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Thông tin xe</h3>
+                <!--            th:field="*{car}"-->
+                <div class="tile-body">
+                    <div>
+
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Tên xe</label>
+                        <input class="form-control" type="text" th:field="*{nameCar}">
+
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('nameCar')}" th:errors="*{nameCar}"></div>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Ngày làm đơn hàng</label>
+                        <input class="form-control" type="date" th:field="*{create_car}" >
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('create_car')}" th:errors="*{create_car}"></div>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Quốc gia</label>
+                        <input class="form-control" type="text" th:field="*{nation}" >
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('nation')}" th:errors="*{nation}"></div>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Kiểu dáng</label>
+                        <input class="form-control" type="text" th:field="*{form}" >
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('form')}" th:errors="*{form}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleSelect1" class="control-label">Tình trạng</label>
+                        <select class="form-control" id="exampleSelect1" th:field="*{state}">
+                            <option value="">-- Chọn tình trạng --</option>
+                            <option value="Mới">Mới</option>
+                            <option value="Cũ">Cũ</option>
+                        </select>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
+
+                    </div>
+
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Số km đã đi</label>
+                        <input class="form-control" type="text" th:field="*{gone}" >
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('gone')}" th:errors="*{gone}"></div>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">lịch sử sửa chữa</label>
+                        <input class="form-control" type="text" th:field="*{quality}">
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('quality')}" th:errors="*{quality}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleSelect1" class="control-label">Hộp số</label>
+                        <select class="form-control" id="exampleSelect2" th:field="*{gear}">
+                            <option value="cu">-- Chọn hộp số --</option>
+                            <option value="auto">số tự động</option>
+                            <option value="manual">Số tay</option>
+                        </select>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('gear')}" th:errors="*{gear}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleSelect1" class="control-label">Nhiên liệu</label>
+                        <select class="form-control" id="exampleSelect3" th:field="*{fuel}">
+                            <option value="">-- Chọn loại nhiên liệu --</option>
+                            <option value="xang">Xăng</option>
+                            <option value="dau">Dầu</option>
+                            <option value="dien">Điện</option>
+                        </select>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('fuel')}" th:errors="*{fuel}"></div>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Giá bán</label>
+                        <input class="form-control" type="text" th:field="*{price}">
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleSelect1" class="control-label">Thành phố bán xe</label>
+                        <select class="form-control" id="exampleSelect4" th:field="*{city}">
+                            <option value="">-- Chọn thành phố --</option>
+                            <option value="hcm">Hồ Chí Minh</option>
+                            <option value="dn">Đà Nẵng</option>
+                            <option value="hn">Hà Nội</option>
+                        </select>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleSelect1" class="control-label">Hãng</label>
+                        <select class="form-control" id="exampleSelect5" th:field="*{brand}">
+                            <option value="">-- Chọn hãng --</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="honda">Honda</option>
+                            <option value="suzuki">Suzuki</option>
+                            <option value="bmw">BMW</option>
+                        </select>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
+                    </div>
+                </div>
+                </div>
+                <h3 class="tile-title" style="width:90%">Thông tin tin</h3>
+                <!--              th:action="@{/doc/form-add-don-hang}"-->
+                <div  >
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Tựa đề</label>
+                        <input class="form-control" type="text" th:field="*{title}">
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label">Mô tả</label>
+                        <textarea class="form-control" rows="4" th:field="*{des}" ></textarea>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('des')}" th:errors="*{des}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleSelect1" class="control-label">Tình trạng bài viết</label>
+                        <select class="form-control" id="exampleSelect6" th:field="*{support}">
+                            <option value="Chưa thanh toán">Chưa hoàn thành</option>
+                            <option value="Đã thanh toán">Hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+                <h3 class="tile-title">Hình ảnh xe</h3>
+                <p th:text="${noti}"></p>
+                <p th:text="${error}"></p>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Ảnh xe</label>
+                    <div id="myfileupload">
+                        <input type="file" id="uploadfile" th:field="*{file1}" accept="image/png,image/jpg, image/jpeg"/>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('file1')}" th:errors="*{file1}"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="image" class="control-label">Hình ảnh xe</label>
+                    <img id="image" style="width:400px;height:350px" th:src="@{'/car-photos/' + ${piccar.id} + '/' + ${piccar.name}}" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Ảnh xe</label>
+                    <div>
+                        <input type="file" th:field="*{file2}" accept="image/png, image/jpeg, image/jpg"/>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('file2')}" th:errors="*{file2}"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="image1" class="control-label">Hình ảnh xe</label>
+                    <img id="image1" style="width:400px;height:350px" th:src="@{'/car-photos/' + ${piccar1.id} + '/' + ${piccar1.name}}" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Ảnh xe</label>
+                    <div>
+                        <input type="file" th:field="*{file3}" accept="image/png, image/jpeg, image/jpg"/>
+                        <div class="alert alert-warning" th:if="${#fields.hasErrors('file3')}" th:errors="*{file3}"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="image2" class="control-label">Hình ảnh xe</label>
+                    <img id="image2" style="width:400px;height:350px" th:src="@{'/car-photos/' + ${piccar2.id} + '/' + ${piccar2.name}}" />
+                </div>
+                <h3 class="tile-title">Thông tin người đăng tin</h3>
+                <p th:text="${notfound1}"></p>
+                <div class="form-group  col-md-4">
+                    <label class="control-label">Tên người đăng tin</label>
+                    <input class="form-control" type="text" th:name="nameUser" th:field="*{nameUser}">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('nameUser')}" th:errors="*{nameUser}"></div>
+                </div>
+                <input class="btn btn-save" type="submit" value="Lưu lại"/>
+                <a class="btn btn-cancel" th:href="@{/doc/table-data-oder}">Hủy bỏ</a>
+            </div>
+        </div>
+    </form>
+</main>
+<!-- Essential javascripts for application to work-->
+<script src="/js/jsDoc/jquery-3.2.1.min.js"></script>
+<script src="/js/jsDoc/popper.min.js"></script>
+<script src="/js/jsDoc/bootstrap.min.js"></script>
+<script src="/js/jsDoc/main.js"></script>
+<!-- The javascript plugin to display page loading on top-->
+<script src="/js/jsDoc/plugins/pace.min.js"></script>
+</body>
+</html>
