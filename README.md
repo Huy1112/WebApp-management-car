@@ -11,6 +11,4 @@ Sử dụng các ngôn ngữ:
 
 
 
-Đồ án còn thiếu phần giao diện dành cho người dùng vì không thể code giao diện. 
-
-
+Đồ án còn thiếu phần giao diện dành cho người dùng vì không thể code giao diện. Về phần thống kê của github vì giao diện của trang web được sử dụng nhiều trang html lặp lại nên github thống kê có rất nhiều css,js. 
